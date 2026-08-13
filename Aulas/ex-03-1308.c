@@ -1,22 +1,22 @@
 #include <stdio.h>
 
-#define QUANTIDADE_LOOP 10
+#define VALOR_MAXIMO 50
+#define VALOR_INICIAL 1
+#define VALOR_INCREMENTO 1
 
 int main() {
-    for (int i = 1; i <= QUANTIDADE_LOOP; i++) {
-        
-        if (i % 2 == 0) {
-            
+    for (int i = VALOR_INICIAL; i <= VALOR_MAXIMO; i += VALOR_INCREMENTO) {
+        if (i % 3 == 0 || i % 10 == 3 ) {
+            printf("PI");
+        } else {
             printf("%d", i);
-        
-            if (i < QUANTIDADE_LOOP) {
-            printf(", ");
+        }
+
+        if (i < VALOR_MAXIMO) {
+                printf(", ");
             } else {
                 printf(".");
-            }
         }
-        
-        
     }
 
     printf("\n"); // só pq tenho toque
