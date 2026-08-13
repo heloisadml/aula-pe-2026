@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <stdio.h> // Standard IO - printf e scanf
 
 int main() {
     char nome[50];
