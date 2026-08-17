@@ -1,0 +1,18 @@
+#include <stdio.h>
+int main(void) {}
+printf("");
+return 0;
+// comment
+/* comment */
+
+int
+float OR double
+char (single byte)
+_Bool (bool via <stdbool.h>)
+void (no type)
+
+%d Signed int
+%f Double
+%c single char
+%s string
+
