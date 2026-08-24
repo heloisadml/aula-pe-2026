@@ -6,19 +6,63 @@ int maiorValorVetor(int vetor[], int elem);
 int buscaSequencial(int vetor[], int elem, int x);
 void digitacaoVetor(int vetor[], int elem);
 void impressaoVetor(int vetor[], int elem);
+int removerValor(int vetor[], int elem, int x);
 
 int main() {
     int numeros[QTD];
-    int x = 9; // qualquer numero
+    int x;
+    int opcao;
 
+    printf("DIGITAÇÃO VETOR:\n");
     digitacaoVetor(numeros, QTD);
-    impressaoVetor(numeros, QTD);
-    printf("\nO maior valor está na posição: %d\n", maiorValorVetor(numeros, QTD));
     
-    if (buscaSequencial(numeros, QTD, x) = -1) {
-        printf("Este número não está no vetor.")
-    }
-    printf("\n O número %d ")
+    do {
+        printf("\n=== MENU ===\n");
+        printf("1 - Imprimir o vetor\n");
+        printf("2 - Buscar valor no vetor\n");
+        printf("3 - Achar maior elemento do vetor\n");
+        printf("4 - Remover valor do vetor\n");
+        printf("0 - Sair\n");
+
+        printf("Opção: ");
+        scanf("%d", &opcao);
+        switch (opcao) {
+            case 1:
+                impressaoVetor(numeros, QTD);
+                printf("\n");
+                break;
+            case 2:
+                printf("Digite o valor a buscar: ");
+                scanf("%d", &x);
+                {
+                    int pos = buscaSequencial(numeros, QTD, x);
+                    if (pos == -1) {
+                        printf("Este valor não está no vetor.\n");
+                    } else {
+                        printf("Valor encontrado na posição %d.\n", pos + 1);
+                    }
+                }
+                break;
+            case 3:
+                printf("\nO maior valor está na posição: %d\n", maiorValorVetor(numeros, QTD));
+                break;
+            case 4:
+                impressaoVetor(numeros, QTD);
+                printf("\n");
+                printf("\nDigite o número que deseja remover: ");
+                scanf("%d", &x);
+                if (removerValor(numeros, QTD, x) == 0) {
+                    printf("\nEste número não está no vetor.");
+                } else {
+                    printf("\nNúmero removido.\n");
+                }
+                break;
+            case 0:
+                break;
+            default:
+                break;
+        }
+    } while (opcao != 0);
     return 0;
 }
 
@@ -54,9 +98,23 @@ int maiorValorVetor(int vetor[], int elem) {
 
 int buscaSequencial (int vetor[], int elem, int x) {
     for (int i = 0; i < elem; i += 1) {
-        if (vetor[i] = x) {
+        if (vetor[i] == x) {
             return i;
         }
     }
     return -1;
+}
+
+int removerValor(int vetor[], int elem, int x) {
+    int pos = buscaSequencial(vetor, elem, x);
+    if (pos == -1) {
+        return 0;
+    }
+    for (int i = pos + 1; i < elem; i += 1) {
+        vetor[i - 1] = vetor[i];
+    }
+
+    vetor[elem - 1] = 0; // limpar ultimo (nao diminui vetor)
+
+    return 1;
 }
