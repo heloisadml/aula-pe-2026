@@ -30,7 +30,7 @@ int main() {
 
     for (int i = 0; i < QTD_ALUNOS; i +=1) {
         if (media[i] >= mediaTurma) {
-            printf("Aluno %d: %.2lf\n", i + 1, media[i]);
+            printf("Aluno %d -> Nota 1: %.2lf; Nota 2: %.2lf; Média: %.2lf\n", i + 1, nota1[i], nota2[i], media[i]);
         }
     }
     return 0;
