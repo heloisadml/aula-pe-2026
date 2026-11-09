@@ -16,21 +16,26 @@ void cadastrarProduto(struct Produto *p); // cadastra todas informações do pro
 void lerStr(char str[], int tamMax);
 
 int buscaPorCodigo(struct Produto v[], int n); // busca ordem no vetor do produto de codigo igual a digitado
-void alterarValor(struct Produto v[], int n); // recebe codigo e altera valor para desejado
-double valorProduto(struct Produto p); // recebe codigo e retorna valor
-int estoqueProduto(struct Produto p); // recebe codigo e retorna quantidade em estoque
-// até a e
+
+void alterarValor(struct Produto v[]); // recebe codigo e altera valor para desejado
+void valorProduto(struct Produto v[]); // recebe codigo e printa valor
+int estoqueProduto(struct Produto v[]); // recebe codigo e retorna quantidade em estoque
 
 int main() {
     struct Produto produtos[TAM_PRODUTOS];
     cadastrarProdutos(produtos, TAM_PRODUTOS);
+
+    valorProduto(produtos);
+    alterarValor(produtos);
+    int quantEstoqueTeste = estoqueProduto(produtos);
+    printf("Há %d unidades deste produto no estoque.\n", quantEstoqueTeste);
 
     return 0;
 }
 
 void cadastrarProdutos(struct Produto v[], int n) {
     for (int i = 0; i < n; i++) {
-        printf("\n=== DADOS DO PRODUTO [%d] ===\n", i + 1);
+        printf("\nDADOS DO PRODUTO [%d]\n", i + 1);
         cadastrarProduto(&v[i]);
     }
 }
@@ -39,7 +44,7 @@ void cadastrarProduto(struct Produto *p) {
     printf("Digite código do produto:\n");
     scanf("%d", &(*p).codigo);
 
-    char tmp[TAM_DESC];
+    getchar();
     printf("Digite descrição do produto:\n");
     lerStr((*p).desc, TAM_DESC);
     
@@ -48,7 +53,7 @@ void cadastrarProduto(struct Produto *p) {
 
     printf("Digite a quantidade no estoque deste produto:\n");
     scanf("%d", &(*p).quantEstoque);
-    lerStr(tmp, TAM_DESC); // Limpa \n
+    getchar(); // Limpa \n
 }
 
 void lerStr(char str[], int tamMax) {
@@ -59,12 +64,19 @@ void lerStr(char str[], int tamMax) {
     }
 }
 
-void alterarValor(struct Produto v[], int n) { ///////////
+void alterarValor(struct Produto v[]) {
     printf("\n=== ALTERAR VALOR UNITÁRIO DE PRODUTO ===\n");
-    buscaPorCodigo() 
+    int pos = buscaPorCodigo(v, TAM_PRODUTOS);
+
+    if (pos == -1) {
+        return;
+    }
+
+    printf("Digite valor novo para o produto:\n");
+    scanf("%lf", &v[pos].valor);
 }
 
-int buscaPorCodigo(struct Produto v[], int n) { /////////////
+int buscaPorCodigo(struct Produto v[], int n) { // vai pedir codigo para buscar dentro do vetor dos produtos, retorna posição
     int CodigoBusca;
     printf("Digite código do produto:\n");
     scanf("%d", &CodigoBusca);
@@ -73,6 +85,27 @@ int buscaPorCodigo(struct Produto v[], int n) { /////////////
         if (v[i].codigo == CodigoBusca) {
             return i;
         }
+    }
+    return -1;
+}
+
+void valorProduto(struct Produto v[]) {
+    printf("\n=== VISUALIZAR VALOR UNITÁRIO DE PRODUTO ===\n");
+    int pos = buscaPorCodigo(v, TAM_PRODUTOS);
+    
+    if (pos == -1) {
+        return;
+    }
+
+    printf("O valor do produto deste código é: %lf\n", v[pos].valor);
+}
+
+int estoqueProduto(struct Produto v[]) {
+    printf("\n=== VISUALIZAR QUANTIDADE ESTOQUE DE PRODUTO ===\n");
+    int pos = buscaPorCodigo(v, TAM_PRODUTOS);
+    
+    if (pos == -1) {
+        return 0;
     }
 }
 

@@ -1,0 +1,161 @@
+
+1001
+Teclado USB
+29.90
+5
+1002
+Mouse Optico
+43.40
+8
+1003
+Monitor LED
+56.90
+11
+1004
+Cabo HDMI
+70.40
+14
+1005
+Memoria RAM
+83.90
+17
+1006
+SSD 480GB
+97.40
+20
+1007
+Fonte ATX
+110.90
+23
+1008
+Placa Mae
+124.40
+26
+1009
+Processador
+137.90
+29
+1010
+Gabinete
+151.40
+32
+1011
+Teclado USB
+164.90
+35
+1012
+Mouse Optico
+178.40
+38
+1013
+Monitor LED
+191.90
+41
+1014
+Cabo HDMI
+205.40
+44
+1015
+Memoria RAM
+218.90
+47
+1016
+SSD 480GB
+232.40
+50
+1017
+Fonte ATX
+245.90
+53
+1018
+Placa Mae
+259.40
+56
+1019
+Processador
+272.90
+59
+1020
+Gabinete
+286.40
+62
+1021
+Teclado USB
+299.90
+65
+1022
+Mouse Optico
+313.40
+68
+1023
+Monitor LED
+326.90
+71
+1024
+Cabo HDMI
+340.40
+74
+1025
+Memoria RAM
+353.90
+77
+1026
+SSD 480GB
+367.40
+80
+1027
+Fonte ATX
+380.90
+83
+1028
+Placa Mae
+394.40
+86
+1029
+Processador
+407.90
+89
+1030
+Gabinete
+421.40
+92
+1031
+Teclado USB
+434.90
+95
+1032
+Mouse Optico
+448.40
+98
+1033
+Monitor LED
+461.90
+101
+1034
+Cabo HDMI
+475.40
+104
+1035
+Memoria RAM
+488.90
+107
+1036
+SSD 480GB
+502.40
+110
+1037
+Fonte ATX
+515.90
+113
+1038
+Placa Mae
+529.40
+116
+1039
+Processador
+542.90
+119
+1040
+Gabinete
+556.40
+122
