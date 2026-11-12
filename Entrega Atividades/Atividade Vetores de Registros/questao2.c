@@ -21,14 +21,24 @@ void alterarValor(struct Produto v[]); // recebe codigo e altera valor para dese
 void valorProduto(struct Produto v[]); // recebe codigo e printa valor
 int estoqueProduto(struct Produto v[]); // recebe codigo e retorna quantidade em estoque
 
+void venda(struct Produto v[]);
+int confirmacaoCompra(valor);
+
+void atualizarEstoque(struct Produto v[]); // Um procedimento para, dado um código, atualizar a quantidade em estoque do produto;
+
+void imprimirCodigoDesc(struct Produto v[], int n); // Um procedimento para exibir o código e a descrição de todos os produtos
+
 int main() {
     struct Produto produtos[TAM_PRODUTOS];
-    cadastrarProdutos(produtos, TAM_PRODUTOS);
+    cadastrarProdutos(produtos, TAM_PRODUTOS); // (a)
 
-    valorProduto(produtos);
-    alterarValor(produtos);
-    int quantEstoqueTeste = estoqueProduto(produtos);
+    valorProduto(produtos); // (c)
+    alterarValor(produtos); // (b)
+    int quantEstoqueTeste = estoqueProduto(produtos); // (d)
     printf("Há %d unidades deste produto no estoque.\n", quantEstoqueTeste);
+
+    venda(produtos); // (e)
+    atualizarEstoque(produtos); // (f)
 
     return 0;
 }
@@ -109,6 +119,66 @@ int estoqueProduto(struct Produto v[]) {
     }
 }
 
+void venda(struct Produto v[]) {
+    int quantCompra; 
+    double valorPagar;
+    printf("\n=== PROCEDIMENTO DE VENDA ===\n");
+    int pos = buscaPorCodigo(v, TAM_PRODUTOS);
+
+    if (pos == -1) {
+        return;
+    }
+
+    printf("Digite quantos deste produto deseja comprar:\n");
+    scanf("%lf", &quantCompra);
+
+    if (quantCompra <= v[pos].quantEstoque) {
+        v[pos].quantEstoque -= quantCompra;
+        valorPagar = v[pos].quantEstoque * v[pos].valor;
+        confirmacaoCompra(valorPagar);
+    } else {
+        printf("\nNão há essa quantidade no estoque, há apenas %d produtos.\n", v[pos].quantEstoque);
+    }
+}
+
+int confirmacaoCompra(valor) {
+    char confirmacao;
+    printf("\nO valor a pagar é %lf reais\n", valor);
+    printf("\nDeseja efetivar a compra? Sim: Y. Não: N.\n");
+    scanf("%s", &confirmacao);
+
+    if (confirmacao == "Y") {
+        printf("\nCompra confirmada.\n");
+        return 1;
+    } else {
+        printf("\nCompra não confirmada.\n");
+        return 0;
+    }
+}
+
+void atualizarEstoque(struct Produto v[]) {
+    int quantAdicionar;
+    printf("\n=== ATUALIZAR ESTOQUE ===\n");
+    int pos = buscaPorCodigo(v, TAM_PRODUTOS);
+
+    if (pos == -1) {
+        return;
+    }
+
+    printf("\nEste produto tem %d unidades no estoque, digite valor a adicionar:\n", v[pos].quantEstoque);
+    scanf("%d", &quantAdicionar);
+
+    v[pos].quantEstoque += quantAdicionar;
+}
+
+void imprimirCodigoDesc(struct Produto v[], int n) {
+    printf("\n=== IMPRESSÃO DE CÓDIGOS E DESCRIÇÕES ===\n");
+    for (int i = 0; i < n; i++) {
+        printf("CÓDIGO: %d", v[i].codigo);
+        printf("DESCRIÇÃO: '%s'", v[i].desc);
+        printf("\n===============================\n");
+    } 
+}
 /* 
 A papelaria Escolar deseja automatizar o cadastro dos produtos
 comercializados por ela. Faça o programa que irá realizar essa tarefa. O cadastro de
