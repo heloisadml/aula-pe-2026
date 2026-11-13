@@ -22,11 +22,12 @@ void valorProduto(struct Produto v[]); // recebe codigo e printa valor
 int estoqueProduto(struct Produto v[]); // recebe codigo e retorna quantidade em estoque
 
 void venda(struct Produto v[]);
-int confirmacaoCompra(valor);
+int confirmacaoCompra(double valor);
 
 void atualizarEstoque(struct Produto v[]); // Um procedimento para, dado um código, atualizar a quantidade em estoque do produto;
 
 void imprimirCodigoDesc(struct Produto v[], int n); // Um procedimento para exibir o código e a descrição de todos os produtos
+void imprimirCodigoDescEstoqueZero(struct Produto v[], int n); // Um procedimento para exibir o código e a descrição de todos os produtos com estoque zero. 
 
 int main() {
     struct Produto produtos[TAM_PRODUTOS];
@@ -39,6 +40,9 @@ int main() {
 
     venda(produtos); // (e)
     atualizarEstoque(produtos); // (f)
+
+    imprimirCodigoDesc(produtos, TAM_PRODUTOS); // (g)
+    imprimirCodigoDescEstoqueZero(produtos, TAM_PRODUTOS); // (h)
 
     return 0;
 }
@@ -117,6 +121,8 @@ int estoqueProduto(struct Produto v[]) {
     if (pos == -1) {
         return 0;
     }
+
+    return v[pos].quantEstoque;
 }
 
 void venda(struct Produto v[]) {
@@ -129,25 +135,32 @@ void venda(struct Produto v[]) {
         return;
     }
 
+    if (v[pos].quantEstoque == 0) {
+        printf("Produto sem estoque.\n");
+        return;
+    }
+
     printf("Digite quantos deste produto deseja comprar:\n");
-    scanf("%lf", &quantCompra);
+    scanf("%d", &quantCompra);
 
     if (quantCompra <= v[pos].quantEstoque) {
+        valorPagar = quantCompra * v[pos].valor;
         v[pos].quantEstoque -= quantCompra;
-        valorPagar = v[pos].quantEstoque * v[pos].valor;
-        confirmacaoCompra(valorPagar);
+        if (!confirmacaoCompra(valorPagar)) {
+            v[pos].quantEstoque += quantCompra;
+        }
     } else {
         printf("\nNão há essa quantidade no estoque, há apenas %d produtos.\n", v[pos].quantEstoque);
     }
 }
 
-int confirmacaoCompra(valor) {
+int confirmacaoCompra(double valor) {
     char confirmacao;
     printf("\nO valor a pagar é %lf reais\n", valor);
     printf("\nDeseja efetivar a compra? Sim: Y. Não: N.\n");
-    scanf("%s", &confirmacao);
+    scanf(" %c", &confirmacao);
 
-    if (confirmacao == "Y") {
+    if (confirmacao == 'Y') {
         printf("\nCompra confirmada.\n");
         return 1;
     } else {
@@ -174,34 +187,19 @@ void atualizarEstoque(struct Produto v[]) {
 void imprimirCodigoDesc(struct Produto v[], int n) {
     printf("\n=== IMPRESSÃO DE CÓDIGOS E DESCRIÇÕES ===\n");
     for (int i = 0; i < n; i++) {
-        printf("CÓDIGO: %d", v[i].codigo);
-        printf("DESCRIÇÃO: '%s'", v[i].desc);
+        printf("CÓDIGO: %d\n", v[i].codigo);
+        printf("DESCRIÇÃO: '%s'\n", v[i].desc);
         printf("\n===============================\n");
     } 
 }
-/* 
-A papelaria Escolar deseja automatizar o cadastro dos produtos
-comercializados por ela. Faça o programa que irá realizar essa tarefa. O cadastro de
-produtos deve ser implementado utilizando um vetor de 40 registros (estruturas). Sobre
-cada produto deve-se manter as seguintes informações: código, descrição, valor unitário e
-quantidade em estoque. O programa deverá apresentar os seguintes sub-programas:
 
-(a) Um procedimento para cadastrar um novo produto;
-(b) Um procedimento que, dado um código, permita alterar seu valor unitário;
-(c) Uma função que, dado um código, informe o valor unitário do produto;
-(d) Uma função que, dado um código, informe a quantidade em estoque do produto;
-(e) Um procedimento de venda que, dado o código e a quantidade desejada, e caso
-a quantidade exista no estoque, subtrai a quantidade vendida da quantidade
-existente e informa o valor a ser pago. OBS1: Caso o produto esteja com estoque
-zero, o procedimento de informar ao usuário. OBS2: Caso a quantidade desejada
-seja inferior a quantidade existente o procedimento deve perguntar ao usuário se
-deseja efetivar a compra. Caso afirmativo, o programa deve zerar o estoque e
-informar o valor a ser pago.
-(f) Um procedimento para, dado um código, atualizar a quantidade em estoque do
-produto;
-(g) Um procedimento para exibir o código e a descrição de todos os produtos;
-(h) Um procedimento para exibir o código e a descrição de todos os produtos com
-estoque zero. 
-
-*/
-
+void imprimirCodigoDescEstoqueZero(struct Produto v[], int n) {
+    printf("\n=== IMPRESSÃO DE PRODUTOS SEM ESTOQUE ===\n");
+    for (int i = 0; i < n; i++) {
+        if (v[i].quantEstoque == 0) {
+            printf("CÓDIGO: %d\n", v[i].codigo);
+            printf("DESCRIÇÃO: '%s'\n", v[i].desc);
+            printf("\n===============================\n");
+        }
+    }
+}

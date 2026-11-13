@@ -1,4 +1,3 @@
-
 1001
 Teclado USB
 29.90
@@ -22,7 +21,7 @@ Memoria RAM
 1006
 SSD 480GB
 97.40
-20
+0
 1007
 Fonte ATX
 110.90
@@ -46,7 +45,7 @@ Teclado USB
 1012
 Mouse Optico
 178.40
-38
+0
 1013
 Monitor LED
 191.90
@@ -90,7 +89,7 @@ Mouse Optico
 1023
 Monitor LED
 326.90
-71
+0
 1024
 Cabo HDMI
 340.40
@@ -138,7 +137,7 @@ Cabo HDMI
 1035
 Memoria RAM
 488.90
-107
+0
 1036
 SSD 480GB
 502.40
@@ -158,4 +157,13 @@ Processador
 1040
 Gabinete
 556.40
-122
+0
+1001
+1002
+45.50
+1003
+1004
+2
+Y
+1005
+10
