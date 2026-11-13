@@ -1,44 +1,160 @@
-/*
-3ªQuestão: O Banco Dinheiro Certo deseja automatizar os cadastros de contas de seus
-clientes. São dois cadastros: o de conta corrente e o de conta poupança. Nos cadastros
-devem constar as seguintes informações: número da conta, nome e o cpf do cliente, um
-telefone de contato e o saldo. Faça um programa para criar e manipular os cadastros de
-conta do banco. Cada cadastro deve ser implementado como um vetor de estruturas. O
-programa deve conter os seguintes subprogramas:
+#include <stdio.h>
+#include <string.h>
 
-(a) Uma função de busca. Esta função irá receber como parâmetro o cadastro a ser
-pesquisado e o número da conta procurada e irá retornar a posição no cadastro
-onde a conta foi encontrada. Caso o cadastro esteja vazio, a função deve retornar
--1 e, caso não encontre o valor, a função deve retornar -2;
-(b) Um procedimento para cadastrar uma nova conta. Este procedimento irá receber
-como parâmetro o cadastro onde a conta será inserida e o número da nova conta.
-O procedimento deverá certificar-se que aquele número de conta não consta no
-cadastro. Para tal, ele irá utilizar a função definida no item (a). Caso já conste,
-deve avisar ao usuário que não poderá fazer o cadastramento, pois se trata de um
-número de conta repetido. Caso não conste, o procedimento deve prosseguir com
-o cadastramento, solicitando o restante dos dados e inserindo a nova conta no
-final do cadastro;
-(c) Um procedimento para consultar o saldo de uma conta. Este procedimento irá
-receber como parâmetro o cadastro a ser pesquisado e o número da conta a ser
-consultada. Fará uma busca utilizando a função definida no item (a). Se a conta
-existir no cadastro, o procedimento deverá informar seu saldo; caso contrário, o
-procedimento deverá informar que a conta não está cadastrada.
-(d) Um procedimento para fazer um depósito em uma conta. Este procedimento irá
-receber como parâmetro o cadastro a ser pesquisado e o número da conta onde
-será efetuado o depósito. Fará uma busca utilizando a função definida no item (a).
-Se a conta existir no cadastro, o procedimento deverá solicitar o valor e efetuar o
-depósito; caso contrário, o procedimento deverá informar que a conta não está
-cadastrada.
-(e) Um procedimento para fazer um saque em uma conta. Este procedimento irá
-receber como parâmetro o cadastro a ser pesquisado e o número da conta onde
-será efetuado o saque. Fará uma busca utilizando a função definida no item (a).
-Se a conta não existir no cadastro, o procedimento deverá informar que a conta
-não está cadastrada. Se a conta existir, o procedimento deverá solicitar o valor e,
-caso haja saldo suficiente, efetuar o saque; caso contrário, o procedimento deverá
-informar que não existe saldo suficiente.
-(f) Um procedimento para exibir o número da conta, o nome do titular e o telefone
-para contato de todas as contas de um determinado cadastro. Este procedimento
-irá receber como parâmetro o cadastro cujos valores serão exibidos.
-OBS: Suponha que cada cadastro pode armazenar, no máximo, os dados relativos a 100
-(cem) contas.
-*/
+#define TAM_CONTA 100
+#define TAM_NOME 50
+
+struct Contas {
+    int numero;
+    char nome[TAM_NOME];
+    int cpf;
+    int telefone;
+    double saldo;
+};
+
+int buscaConta(struct Contas v[], int n, int x); // (a)
+
+void cadastrarConta(struct Contas v[], int *n, int x); // (b)
+void lerStr(char str[], int tamMax);
+
+void consultarSaldo(struct Contas v[], int n, int x); // (c)
+
+void depositoConta(struct Contas v[], int n, int x); // (d)
+
+void saqueConta(struct Contas v[], int n, int x); // (e)
+
+void impressaoCadastro(struct Contas v[], int n); // (f)
+
+int main() {
+    // CONTAS PARA TESTES:
+    struct Contas correntes[TAM_CONTA] = {
+        {1001, "Ana Sofia", 111111111, 987654321, 3500.00},
+        {1002, "André Pontual", 222222222, 987654322, 6300.50},
+    };
+
+    struct Contas poupancas[TAM_CONTA] = {
+        {2001, "Heloisa Lira", 333333333, 987654323, 2.00},
+        {2002, "Pedro Lucas", 444444444, 987654324, 3200.00}
+    };
+
+    int qtdCorrentes = 2;
+    int qtdPoupancas = 2;
+    
+    // RESPOSTAS
+
+    printf("Posição da conta: %d\n", buscaConta(correntes, qtdCorrentes, 1002)); // (a)
+    printf("Posição da conta: %d\n", buscaConta(poupancas, qtdPoupancas, 2001)); // (a)
+
+    cadastrarConta(correntes, &qtdCorrentes, 1003); // (b)
+
+    printf("\nConsulta de saldo de conta de número 1001:");
+    consultarSaldo(correntes, qtdCorrentes, 1001); // (c)
+
+    printf("\nDepósito de saldo de conta de número 1001:");
+    depositoConta(correntes, qtdCorrentes, 1001); // (d)
+
+    printf("\nSaque de saldo de conta de número 1001:");
+    saqueConta(correntes, qtdCorrentes, 1001); // (e)
+
+    impressaoCadastro(correntes, qtdCorrentes); // (f)
+
+    return 0;
+}
+
+int buscaConta(struct Contas v[], int n, int x) { 
+    if (n == 0) {
+        return -1;
+    }
+    
+    for (int i = 0; i < n; i++) {
+        if (v[i].numero == x) {
+            return i;
+        }
+    }
+
+    return -2;
+} 
+
+void cadastrarConta(struct Contas v[], int *n, int x) {
+    printf("\n=== CADASTRO DE NOVA CONTA ===\n");
+
+    if (buscaConta(v, *n, x) < 0 && *n < TAM_CONTA) {
+        v[*n].numero = x;
+
+        printf("\nDigite nome da nova conta:\n");
+        lerStr(v[*n].nome, TAM_NOME);
+
+        printf("\nDigite CPF da nova conta:\n");
+        scanf("%d", &v[*n].cpf);
+
+        printf("\nDigite telefone da nova conta:\n");
+        scanf("%d", &v[*n].telefone);
+
+        printf("\nDigite saldo da nova conta:\n");
+        scanf("%lf", &v[*n].saldo);
+
+        (*n)++;
+    } else {
+        printf("\nConta já cadastrada ou cadastro cheio.\n");
+    }
+}
+
+void lerStr(char str[], int tamMax) {
+    fgets(str, tamMax, stdin);
+    int tam = strlen(str);
+    if (tam > 0 && str[tam - 1] == '\n') {
+        str[tam - 1] = '\0';
+    }
+}
+
+void consultarSaldo(struct Contas v[], int n, int x) {
+    int pos = buscaConta(v, n, x);
+    if (pos >= 0) {
+        printf("\nO saldo desta conta é: %lf\n", v[pos].saldo);
+    } else {
+        printf("\nConta não cadastrada.\n");
+    }
+}
+
+void depositoConta(struct Contas v[], int n, int x) {
+    int pos = buscaConta(v, n, x);
+    double saldoAdicional;
+    if (pos >= 0) {
+        printf("\nDigite valor que deseja depositar à conta:\n");
+        scanf("%lf", &saldoAdicional);
+
+        v[pos].saldo += saldoAdicional;
+        printf("\nValor depositado com sucesso.\n");
+    } else {
+        printf("\nConta não cadastrada.\n");
+    }
+}
+
+void saqueConta(struct Contas v[], int n, int x) {
+    int pos = buscaConta(v, n, x);
+    double saldoSaque;
+    if (pos >= 0) {
+        printf("\nDigite valor que deseja saquear da conta:\n");
+        scanf("%lf", &saldoSaque);
+
+        if (v[pos].saldo >= saldoSaque) {
+            v[pos].saldo -= saldoSaque;
+            printf("\nValor saqueado com sucesso.\n");
+        } else {
+            printf("\nNão há saldo suficiente.\n");
+        }
+
+    } else {
+        printf("\nConta não cadastrada.\n");
+    }
+}
+
+void impressaoCadastro(struct Contas v[], int n) {
+    printf("\n=== IMPRESSÃO CADASTROS ===\n");
+    for (int i = 0; i < n; i++) {
+        printf("\nNúmero: %d\n", v[i].numero);
+        printf("\nNome do titular: %s\n", v[i].nome);
+        printf("\nTelefone para contato: %d\n", v[i].telefone);
+        printf("\n=================================\n");
+    }
+}
